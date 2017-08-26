@@ -5,10 +5,12 @@ import org.bukkit.SkullType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,6 +26,33 @@ public class NPC {
 
     public Zombie getEntity() {
         return entity;
+    }
+
+    public List<ItemStack> getInventoryContents() {
+        return inventoryContents;
+    }
+
+    private List<ItemStack> getContents(PlayerInventory inventory) {
+        List<ItemStack> output = new ArrayList<>();
+        for (ItemStack content : inventory.getContents()) {
+            if (content != null) {
+                output.add(content);
+            }
+        }
+        for (ItemStack armorContent : inventory.getArmorContents()) {
+            if (armorContent != null) {
+                output.add(armorContent);
+            }
+        }
+        return output;
+    }
+
+    public boolean isNPC(Zombie zombie) {
+        return entity.getUniqueId().equals(zombie.getUniqueId());
+    }
+
+    public UUID getLogger() {
+        return logger;
     }
 
     private Zombie zombieNPC(Player player) {
